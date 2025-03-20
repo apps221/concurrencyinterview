@@ -22,16 +22,21 @@ async function main() {
   const users = (await fetchFollowerIds()).map(id => fetchUserData(id)); //map through fetchFollowerIds and take the ids and turn them into promises by fetchUserData
   const usersData = await Promise.all(users); //users is an array of promises, can use Promise.all to return an array of promises all at once
   document.querySelector('.followers').innerHTML = usersData.map (
-    (user) => `
+    (user) => userHtml(user)
+  ).join(""); //.innerHTML has to be a string that's why we have the .join
+}
+function userHtml(user) {
+  return (
+`
     <div class="profile">
-      <img class="profile__avatar" src="https://www.gravatar.com/avatar/3456?d=identicon&s=64">
+      <img class="profile__avatar" src=${user.avatar}>
       <div class="profile__info">
-        <p class="profile__username">David Bragg</p>
-        <p class="profile__bio">Software Engineer at Canva</p>
+        <p class="profile__username">${user.username}</p>
+        <p class="profile__bio">${user.bio}</p>
       </div>
       <button class="profile__unfollow">Remove</button>
     </div>`
-  ).join("");
+  )
 }
 main();
 
