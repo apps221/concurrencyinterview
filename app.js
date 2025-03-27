@@ -21,9 +21,10 @@ async function fetchUserData(id) {
 async function main() {
   const users = (await fetchFollowerIds()).map(id => fetchUserData(id)); //map through fetchFollowerIds and take the ids and turn them into promises by fetchUserData
   const usersData = await Promise.all(users); //users is an array of promises, can use Promise.all to return an array of promises all at once
+  console.log(usersData)
   document.querySelector('.followers').innerHTML = usersData.map (
     (user) => userHtml(user)
-  ).join(""); //.innerHTML has to be a string that's why we have the .join
+  ).join(""); //.innerHTML has to be a string that's why we have the .join because usersData is an array of objects for each user
 }
 function userHtml(user) {
   return (
